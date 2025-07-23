@@ -14,10 +14,29 @@
             ['_', 'X', '_'],
             ['O', 'O', 'X']
         ];
-*/
-function validateMove(move, board) {
-    // Implement this at the end if you have time, otherwise you can help your teammates!
-    return true;
+        */
+export function validateMove(move, board) {
+  const parts = move.split(",");
+
+  if (parts.length !== 2) {
+    console.log("Try again... (Use format: row,col)");
+    return false;
+  }
+
+  const row = parseInt(parts[0], 10) - 1;
+  const col = parseInt(parts[1], 10) - 1;
+
+  if (isNaN(row) || isNaN(col) || row < 0 || row > 2 || col < 0 || col > 2) {
+    console.log("Try again... (Move out of bounds)");
+    return false;
+  }
+
+  if (board[row][col] !== "_") {
+    console.log("Try again... (Space is taken)");
+    return false;
+  }
+
+  return true;
 }
 
 /*
@@ -31,6 +50,20 @@ function validateMove(move, board) {
             - Update the board with the player's value ('X' or 'O') in the correct position
             - Return true
 */
+
 export function makeMove(board, move, player) {
+  if (!validateMove(move, board)) {
     return false;
+  }
+
+  const [rowStr, colStr] = move.split(",");
+  const row = parseInt(rowStr, 10) - 1;
+  const col = parseInt(colStr, 10) - 1;
+
+  board[row][col] = player;
+  return true;
+}
+
+function play(board, move, player) {
+  makeMove(board, move, player);
 }
